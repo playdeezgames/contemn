@@ -23,7 +23,8 @@ Friend Class DialogState
         Buffer.WriteCentered(0, dialog.Caption, Hue.Brown, Hue.Black)
         Dim topRow = 1
         For Each line In dialog.Lines
-            Buffer.WriteCentered(topRow, line, Hue.LightGray, Hue.Black)
+            Dim colors = MoodColors(line.Mood)
+            Buffer.WriteCentered(topRow, line.Text, colors.ForegroundColor, colors.BackgroundColor)
             topRow += 1
         Next
         Dim centerRow = (topRow + Buffer.Rows - 1) \ 2
@@ -50,7 +51,8 @@ Friend Class DialogState
                 choiceIndex = (choiceIndex + 1) Mod dialog.Choices.Count
                 Return Me
             Case UI.Command.Green
-                Return SetNextDialog(dialog.Choose(dialog.Choices.ToArray()(choiceIndex).Choice))
+                Dim nextDialog = dialog.Choose(dialog.Choices.ToArray()(choiceIndex).Choice)
+                Return SetNextDialog(nextDialog)
             Case UI.Command.Red
                 Return SetNextDialog(dialog.CancelDialog())
             Case Else

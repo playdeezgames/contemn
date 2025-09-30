@@ -6,6 +6,11 @@ Friend Module NeutralState
                                   buffer As IUIBuffer(Of Integer),
                                   world As IWorld,
                                   playSfx As Action(Of String)) As IUIState
+        Dim avatar = world.Avatar
+        If avatar.IsDead Then
+            playSfx(Sfx.PlayerDeath)
+            Return New DeadState(buffer, world, playSfx)
+        End If
         Return New NavigationState(buffer, world, playSfx)
     End Function
 End Module

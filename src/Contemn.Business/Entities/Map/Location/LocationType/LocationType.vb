@@ -1,4 +1,3 @@
 ﻿Public Module LocationType
-    Public ReadOnly Floor As String = NameOf(Floor)
-    Public ReadOnly Wall As String = NameOf(Wall)
+    Public ReadOnly Dirt As String = NameOf(Dirt)
 End Module

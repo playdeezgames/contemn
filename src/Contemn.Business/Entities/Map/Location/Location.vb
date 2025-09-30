@@ -1,4 +1,5 @@
 ﻿Imports Contemn.Data
+Imports TGGD.Business
 
 Friend Class Location
     Inherits InventoryEntity(Of LocationData)
@@ -22,11 +23,27 @@ Friend Class Location
         End Get
         Set(value As String)
             If value <> EntityData.LocationType Then
+                World.DeactivateLocation(Me)
+                EntityData.Statistics.Clear()
+                EntityData.StatisticMinimums.Clear()
+                EntityData.StatisticMaximums.Clear()
+                EntityData.Metadatas.Clear()
+                EntityData.Tags.Clear()
                 EntityData.LocationType = value
                 Initialize()
             End If
         End Set
     End Property
+
+    Public Overrides Sub Clear()
+        MyBase.Clear()
+        EntityData.LocationType = Nothing
+        EntityData.MapId = 0
+        EntityData.Column = 0
+        EntityData.Row = 0
+        EntityData.CharacterId = Nothing
+        World.DeactivateLocation(Me)
+    End Sub
 
     Public ReadOnly Property Column As Integer Implements ILocation.Column
         Get
@@ -54,13 +71,19 @@ Friend Class Location
 
     Public ReadOnly Property Character As ICharacter Implements ILocation.Character
         Get
-            Return If(HasCharacter, New Character(Data, EntityData.CharacterId.Value, AddressOf PlaySfx), Nothing)
+            Return If(HasCharacter, World.GetCharacter(EntityData.CharacterId.Value), Nothing)
         End Get
     End Property
 
     Protected Overrides ReadOnly Property EntityData As LocationData
         Get
             Return Data.Locations(LocationId)
+        End Get
+    End Property
+
+    Public ReadOnly Property Name As String Implements ILocation.Name
+        Get
+            Return LocationType.ToLocationTypeDescriptor.GetName(Me)
         End Get
     End Property
 
@@ -74,4 +97,12 @@ Friend Class Location
 
     Protected Overrides Sub HandleRemoveItem(item As IItem)
     End Sub
+
+    Public Sub ProcessTurn() Implements ILocation.ProcessTurn
+        LocationType.ToLocationTypeDescriptor.OnProcessTurn(Me)
+    End Sub
+
+    Public Function GenerateBumpLines(character As ICharacter) As IEnumerable(Of IDialogLine) Implements ILocation.GenerateBumpLines
+        Return LocationType.ToLocationTypeDescriptor.GenerateBumpLines(Me, character)
+    End Function
 End Class

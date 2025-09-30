@@ -4,7 +4,7 @@ Friend Class MoveVerbTypeDescriptor
     Inherits VerbTypeDescriptor
     ReadOnly directionType As String
     Public Sub New(verbType As String, directionType As String)
-        MyBase.New(verbType, Nothing)
+        MyBase.New(verbType, Business.VerbCategoryType.Move, Nothing)
         Me.directionType = directionType
     End Sub
 
@@ -13,10 +13,13 @@ Friend Class MoveVerbTypeDescriptor
         Dim nextColumn = descriptor.GetNextColumn(character.Column)
         Dim nextRow = descriptor.GetNextRow(character.Row)
         Dim nextLocation = character.Map.GetLocation(nextColumn, nextRow)
-        Return character.MoveTo(nextLocation)
+        If nextLocation IsNot Nothing Then
+            Return character.MoveTo(nextLocation)
+        End If
+        Return Nothing
     End Function
 
     Public Overrides Function CanPerform(character As ICharacter) As Boolean
-        Return True
+        Return MyBase.CanPerform(character)
     End Function
 End Class

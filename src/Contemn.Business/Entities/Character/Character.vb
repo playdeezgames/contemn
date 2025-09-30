@@ -80,7 +80,12 @@ Friend Class Character
     End Function
 
     Private Function Bump(nextLocation As ILocation) As IDialog
-        Return Me.HandleBump(nextLocation)
+        Return HandleBump(nextLocation)
+    End Function
+
+    Private Function HandleBump(nextLocation As ILocation) As IDialog
+        SetBumpLocation(nextLocation)
+        Return nextLocation.LocationType.ToLocationTypeDescriptor.OnBump(nextLocation, Me)
     End Function
 
     Private Function Enter(nextLocation As ILocation) As IDialog
@@ -92,6 +97,7 @@ Friend Class Character
     End Function
 
     Private Sub Leave()
+        SetBumpLocation(Nothing)
         Me.HandleLeave(Location)
         Location.HandleLeave(Me)
         Data.Locations(EntityData.LocationId).CharacterId = Nothing
@@ -117,4 +123,18 @@ Friend Class Character
     Public Function Interact(initiator As ICharacter) As IDialog Implements ICharacter.Interact
         Return CharacterType.ToCharacterTypeDescriptor.OnInteract(Me, initiator)
     End Function
+
+    Public Function AvailableVerbsOfCategory(verbCategoryType As String) As IEnumerable(Of String) Implements ICharacter.AvailableVerbsOfCategory
+        Return VerbTypes.AllOfCategory(verbCategoryType).Where(Function(x) CanPerform(x))
+    End Function
+
+    Public Function ProcessTurn() As IEnumerable(Of IDialogLine) Implements ICharacter.ProcessTurn
+        Return CharacterType.ToCharacterTypeDescriptor.OnProcessTurn(Me)
+    End Function
+
+    Public Overrides Sub Clear()
+        MyBase.Clear()
+        EntityData.LocationId = 0
+        EntityData.CharacterType = Nothing
+    End Sub
 End Class

@@ -14,17 +14,16 @@ Friend Class NavigationState
     Public Overrides Sub Refresh()
         Buffer.Fill
         RenderMap()
+        RenderStatistics()
         RenderMessages()
     End Sub
 
-    Shared ReadOnly moodColors As IReadOnlyDictionary(Of String, (ForegroundColor As Integer, BackgroundColor As Integer)) =
-        New Dictionary(Of String, (ForegroundColor As Integer, BackgroundColor As Integer)) From
-        {
-            {MoodType.Info, (Hue.LightGray, Hue.Black)},
-            {MoodType.Danger, (Hue.Black, Hue.Red)},
-            {MoodType.Warning, (Hue.Black, Hue.Yellow)}
-        }
-
+    Private Sub RenderStatistics()
+        Dim avatar = World.Avatar
+        Dim x = VIEW_WIDTH
+        Dim y = 0
+        Buffer.Write(x, y, $"Terrain: {avatar.Location.Name}", Hue.LightGray, Hue.Black)
+    End Sub
 
     Private Sub RenderMessages()
         While World.MessageCount > MESSAGE_LINES
@@ -78,7 +77,7 @@ Friend Class NavigationState
             Case UI.Command.Right
                 Return HandleMove(VerbType.MoveEast)
             Case UI.Command.Green
-                Return New DialogState(Buffer, World, PlaySfx, World.Avatar.Perform(VerbType.ActionList))
+                Return New DialogState(Buffer, World, PlaySfx, VerbListDialog.LaunchMenu(World.Avatar).Invoke())
             Case Else
                 Return Me
         End Select

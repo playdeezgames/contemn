@@ -1,4 +1,6 @@
-﻿Public Module Utility
+﻿Imports System.Runtime.CompilerServices
+
+Public Module Utility
     Public Function MakeHashSet(Of T)(ParamArray items() As T) As HashSet(Of T)
         Return New HashSet(Of T)(items)
     End Function
@@ -8,5 +10,13 @@
     End Function
     Public Function MakeList(Of T)(ParamArray items() As T) As IReadOnlyList(Of T)
         Return items.ToList
+    End Function
+    <Extension>
+    Public Function AppendIf(Of TSource)(source As IEnumerable(Of TSource), condition As Boolean, element As TSource) As IEnumerable(Of TSource)
+        Return If(condition, source.Append(element), source)
+    End Function
+    <Extension>
+    Public Function ConcatIf(Of TSource)(source As IEnumerable(Of TSource), condition As Boolean, elements As IEnumerable(Of TSource)) As IEnumerable(Of TSource)
+        Return If(condition, source.Concat(elements), source)
     End Function
 End Module

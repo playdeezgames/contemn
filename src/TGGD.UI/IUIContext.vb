@@ -1,6 +1,6 @@
 Public Interface IUIContext
-    ReadOnly Property Sfx As String
-    Sub NextSfx()
+    ReadOnly Property [Event] As IEnumerable(Of String)
+    Sub NextEvent()
     Sub Refresh()
     Sub HandleCommand(command As String)
 End Interface

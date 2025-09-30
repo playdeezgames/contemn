@@ -12,6 +12,7 @@ Friend Class N00bCharacterTypeDescriptor
     Const MAXIMUM_HYDRATION = 100
     Const SATIETY_WARNING = MAXIMUM_SATIETY / 10
     Const HYDRATION_WARNING = MAXIMUM_HYDRATION / 10
+    Const MAXIMUM_RECOVERY = 10
 
     Friend Overrides Sub OnInitialize(character As ICharacter)
         character.World.Avatar = character
@@ -22,6 +23,9 @@ Friend Class N00bCharacterTypeDescriptor
     End Function
 
     Friend Overrides Sub OnEnter(character As ICharacter, location As ILocation)
+        For Each line In character.World.ProcessTurn()
+            character.World.AddMessage(line.Mood, line.Text)
+        Next
         Dim items = location.Items
         For Each item In items
             location.RemoveItem(item)
@@ -29,6 +33,11 @@ Friend Class N00bCharacterTypeDescriptor
             character.AddItem(item)
         Next
     End Sub
+
+    Friend Overrides Function OnProcessTurn(character As ICharacter) As IEnumerable(Of IDialogLine)
+        Dim result As New List(Of IDialogLine)
+        Return result
+    End Function
 
     Friend Overrides Sub OnLeave(character As ICharacter, location As ILocation)
     End Sub
@@ -38,7 +47,7 @@ Friend Class N00bCharacterTypeDescriptor
     End Function
 
     Friend Overrides Function CanSpawnLocation(location As ILocation) As Boolean
-        Return Not location.HasCharacter AndAlso location.LocationType = LocationType.Floor
+        Return Not location.HasCharacter AndAlso location.LocationType = LocationType.Dirt
     End Function
 
     Friend Overrides Sub HandleAddItem(character As ICharacter, item As IItem)

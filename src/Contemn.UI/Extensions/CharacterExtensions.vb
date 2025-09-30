@@ -16,4 +16,8 @@ Friend Module CharacterExtensions
     Friend Function ToPixel(character As ICharacter) As Integer
         Return characterPixelTable(character.CharacterType)(character)
     End Function
+    <Extension>
+    Friend Function IsDead(character As ICharacter) As Boolean
+        Return False
+    End Function
 End Module

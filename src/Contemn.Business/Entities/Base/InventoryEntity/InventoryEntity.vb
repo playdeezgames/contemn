@@ -45,4 +45,13 @@ Friend MustInherit Class InventoryEntity(Of TEntityData As InventoryEntityData)
     Public Function HasItemsOfType(itemType As String) As Boolean Implements IInventoryEntity.HasItemsOfType
         Return Items.Any(Function(x) x.ItemType = itemType)
     End Function
+
+    Public Function ItemsOfType(itemType As String) As IEnumerable(Of IItem) Implements IInventoryEntity.ItemsOfType
+        Return Items.Where(Function(x) x.ItemType = itemType)
+    End Function
+
+    Public Overrides Sub Clear()
+        MyBase.Clear()
+        EntityData.ItemIds.Clear()
+    End Sub
 End Class

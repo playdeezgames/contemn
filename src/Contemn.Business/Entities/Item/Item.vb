@@ -1,6 +1,7 @@
 ﻿Imports Contemn.Data
+Imports TGGD.Business
 
-Public Class Item
+Friend Class Item
     Inherits Entity(Of ItemData)
     Implements IItem
 
@@ -37,12 +38,25 @@ Public Class Item
         Data.RecycledItems.Add(ItemId)
     End Sub
 
-    Public Function GetAvailableChoices(character As ICharacter) As IEnumerable(Of (Choice As String, Text As String)) Implements IItem.GetAvailableChoices
+    Public Function GetAvailableChoices(character As ICharacter) As IEnumerable(Of IDialogChoice) Implements IItem.GetAvailableChoices
         Return ItemType.ToItemTypeDescriptor.GetAvailableChoices(Me, character)
     End Function
 
     Public Overrides Sub Initialize()
         MyBase.Initialize()
         ItemType.ToItemTypeDescriptor.HandleInitialize(Me)
+    End Sub
+
+    Public Function MakeChoice(character As ICharacter, choice As String) As IDialog Implements IItem.MakeChoice
+        Return ItemType.ToItemTypeDescriptor.Choose(Me, character, choice)
+    End Function
+
+    Public Function Describe() As IEnumerable(Of IDialogLine) Implements IItem.Describe
+        Return ItemType.ToItemTypeDescriptor.Describe(Me)
+    End Function
+
+    Public Overrides Sub Clear()
+        MyBase.Clear()
+        EntityData.ItemType = Nothing
     End Sub
 End Class

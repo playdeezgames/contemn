@@ -13,10 +13,11 @@ Friend Class TitleState
 
     Public Overrides Sub Refresh()
         Buffer.Fill()
-        Buffer.WriteCentered(Buffer.Rows \ 2, "PLACEHOLDER", Hue.LightCyan, Hue.Black)
+        Buffer.WriteCentered(Buffer.Rows \ 2 - 1, "(PLACEHOLDER)", Hue.LightMagenta, Hue.Black)
+        Buffer.WriteCentered(Buffer.Rows \ 2, "(BYLINE)", Hue.Magenta, Hue.Black)
         Buffer.WriteCentered(Buffer.Rows \ 2 + 2, "A Production of TheGrumpyGameDev", Hue.DarkGray, Hue.Black)
-        Buffer.WriteCentered(Buffer.Rows \ 2 + 3, "For REASON(PROLLY A JAM)", Hue.DarkGray, Hue.Black)
-        Buffer.WriteCentered(Buffer.Rows \ 2 + 4, "MONTH YEAR", Hue.DarkGray, Hue.Black)
+        Buffer.WriteCentered(Buffer.Rows \ 2 + 3, "For (EVENT)", Hue.DarkGray, Hue.Black)
+        Buffer.WriteCentered(Buffer.Rows \ 2 + 4, "(DATE)", Hue.DarkGray, Hue.Black)
         Buffer.WriteCentered(Buffer.Rows - 1, "Press <SPACE>", Hue.White, Hue.Black)
     End Sub
 

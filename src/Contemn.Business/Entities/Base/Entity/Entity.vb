@@ -19,10 +19,13 @@ Public MustInherit Class Entity(Of TEntityData As EntityData)
     End Sub
     Public Overridable Sub Clear() Implements IEntity.Clear
         EntityData.Statistics.Clear()
+        EntityData.StatisticMaximums.Clear()
+        EntityData.StatisticMinimums.Clear()
+        EntityData.Metadatas.Clear()
+        EntityData.Tags.Clear()
     End Sub
 
     Public Overridable Sub Initialize() Implements IEntity.Initialize
-        Clear()
     End Sub
 
     Public Sub SetStatistic(statisticType As String, statisticValue As Integer?) Implements IEntity.SetStatistic
@@ -114,4 +117,12 @@ Public MustInherit Class Entity(Of TEntityData As EntityData)
     Public Sub PlaySfx(sfx As String) Implements IEntity.PlaySfx
         _playSfx.Invoke(sfx)
     End Sub
+
+    Public Function HasMetadata(metadataType As String) As Boolean Implements IEntity.HasMetadata
+        Return EntityData.Metadatas.ContainsKey(metadataType)
+    End Function
+
+    Public Function HasStatistic(statisticType As String) As Boolean Implements IEntity.HasStatistic
+        Return EntityData.Statistics.ContainsKey(statisticType)
+    End Function
 End Class
