@@ -61,4 +61,8 @@ Friend Class N00bCharacterTypeDescriptor
     Friend Overrides Function OnInteract(target As ICharacter, initiator As ICharacter) As IDialog
         Throw New NotImplementedException()
     End Function
+
+    Friend Overrides Function OnNavigate(character As Character) As IDialog
+        Return New NavigationDialog(character)
+    End Function
 End Class

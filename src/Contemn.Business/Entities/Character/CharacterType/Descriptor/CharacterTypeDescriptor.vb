@@ -17,4 +17,5 @@ Friend MustInherit Class CharacterTypeDescriptor
     Friend MustOverride Sub HandleRemoveItem(character As ICharacter, item As IItem)
     Friend MustOverride Function OnInteract(target As ICharacter, initiator As ICharacter) As IDialog
     Friend MustOverride Function OnProcessTurn(character As ICharacter) As IEnumerable(Of IDialogLine)
+    Friend MustOverride Function OnNavigate(character As Character) As IDialog
 End Class
