@@ -1,6 +1,6 @@
 ﻿Imports TGGD.Business
 
-Friend Class MoveVerbTypeDescriptor
+Friend MustInherit Class MoveVerbTypeDescriptor
     Inherits VerbTypeDescriptor
     ReadOnly directionType As String
     Public Sub New(verbType As String, directionType As String)

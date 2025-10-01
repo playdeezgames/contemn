@@ -4,7 +4,7 @@
     Shared ReadOnly terrainGenerator As IReadOnlyDictionary(Of String, Integer) =
         New Dictionary(Of String, Integer) From
         {
-            {LocationType.Dirt, 1}
+            {NameOf(DirtLocationTypeDescriptor), 1}
         }
 
     Public Sub New()
