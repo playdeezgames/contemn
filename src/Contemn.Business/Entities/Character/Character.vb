@@ -125,7 +125,8 @@ Friend Class Character
     End Function
 
     Public Function AvailableVerbsOfCategory(verbCategoryType As String) As IEnumerable(Of String) Implements ICharacter.AvailableVerbsOfCategory
-        Return VerbTypes.AllOfCategory(verbCategoryType).Where(Function(x) CanPerform(x))
+        Dim candidates = VerbTypes.AllOfCategory(verbCategoryType).ToList
+        Return candidates.Where(Function(x) CanPerform(x))
     End Function
 
     Public Function ProcessTurn() As IEnumerable(Of IDialogLine) Implements ICharacter.ProcessTurn

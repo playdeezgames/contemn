@@ -29,13 +29,13 @@ Public Class VerbListDialog
     Public Overrides Function Choose(choice As String) As IDialog
         Select Case choice
             Case NEVER_MIND_CHOICE
-                Return Nothing
+                Return CancelDialog()
             Case Else
                 Return choice.ToVerbTypeDescriptor.Perform(character)
         End Select
     End Function
 
     Public Overrides Function CancelDialog() As IDialog
-        Return Choose(NEVER_MIND_CHOICE)
+        Return Nothing
     End Function
 End Class

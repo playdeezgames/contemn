@@ -23,6 +23,7 @@ Friend Class NavigationDialog
 
     Private Shared Function GenerateChoices(character As ICharacter) As IEnumerable(Of IDialogChoice)
         Return {
+            New DialogChoice(MOVE_CHOICE, MOVE_TEXT),
             New DialogChoice(ACTIONS_CHOICE, ACTIONS_TEXT),
             New DialogChoice(GAME_MENU_CHOICE, GAME_MENU_TEXT)
             }
@@ -34,6 +35,8 @@ Friend Class NavigationDialog
                 Return New VerbListDialog(character, VerbCategoryType.Action, ACTIONS_TEXT)
             Case GAME_MENU_CHOICE
                 Return CancelDialog()
+            Case MOVE_CHOICE
+                Return New VerbListDialog(character, VerbCategoryType.Move, MOVE_TEXT)
             Case Else
                 Throw New NotImplementedException
         End Select

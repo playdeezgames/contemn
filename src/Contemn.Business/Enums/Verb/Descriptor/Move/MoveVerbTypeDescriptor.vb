@@ -4,7 +4,7 @@ Friend MustInherit Class MoveVerbTypeDescriptor
     Inherits VerbTypeDescriptor
     ReadOnly directionType As String
     Public Sub New(verbType As String, directionType As String)
-        MyBase.New(verbType, Business.VerbCategoryType.Move, Nothing)
+        MyBase.New(verbType, Business.VerbCategoryType.Move, directionType)
         Me.directionType = directionType
     End Sub
 
